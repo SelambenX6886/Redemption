@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html lang="tr" class="scroll-smooth">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Regeneration</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@100..900&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet" />
+  <link href="./dist/output.css" rel="stylesheet" />
+</head>
+<body class="min-h-screen bg-white font-sans text-slate-700 antialiased dark:bg-slate-950 dark:text-slate-300">
+
+  <!-- Arka plan -->
+  <div class="pointer-events-none fixed inset-0 z-0 overflow-hidden" aria-hidden="true">
+    <div class="bg-grid absolute inset-0"></div>
+    <div class="orb orb-1"></div>
+    <div class="orb orb-2"></div>
+    <div class="orb orb-3"></div>
+  </div>
+
+  <main class="relative z-10 mx-auto max-w-5xl px-5 pb-24 pt-16 sm:px-8 sm:pt-24">
+
+    <!-- Hero -->
+    <header class="fade-up text-center">
+      <span class="inline-flex items-center gap-2 rounded-full px-3 py-1 text-xs font-medium text-sky-700 ring-1 ring-sky-500/30 bg-sky-500/10 dark:text-sky-300">
+        <span class="relative flex size-2">
+          <span class="absolute inline-flex size-full animate-ping rounded-full bg-sky-400 opacity-75"></span>
+          <span class="relative inline-flex size-2 rounded-full bg-sky-500"></span>
+        </span>
+        Regeneration · Redemption
+      </span>
+
+      <h1 class="mt-6 text-4xl font-bold tracking-tighter text-slate-900 sm:text-7xl dark:text-white">
+        Geri Kazanım.
+        <span class="block bg-linear-to-r from-sky-500 via-indigo-500 to-fuchsia-500 bg-clip-text text-transparent">Gün gün.</span>
+      </h1>
+      <p class="mx-auto mt-5 max-w-2xl text-base leading-7 text-slate-600 sm:text-lg dark:text-slate-400">
+        Artık bir şeylerin değişmesi gerek değil mi?
+      </p>
+    </header>
+
+    <!-- Sayaç -->
+    <section class="fade-up relative mt-12 [animation-delay:150ms] sm:mt-16" aria-label="Sayaç">
+      <div class="halo absolute -inset-2 rounded-[2rem] bg-linear-to-r from-sky-400/40 via-indigo-400/40 to-fuchsia-400/30 blur-2xl"></div>
+      <div class="relative rounded-3xl bg-slate-50/90 p-3 ring-1 ring-slate-900/10 backdrop-blur sm:p-4 dark:bg-slate-900/70 dark:ring-white/10">
+        <div class="grid grid-cols-2 gap-3 sm:grid-cols-4 sm:gap-4">
+          <div class="rounded-2xl bg-white p-5 text-center shadow-sm ring-1 ring-slate-900/5 dark:bg-slate-900 dark:ring-white/10">
+            <div id="d" class="font-mono text-4xl font-medium tabular-nums text-slate-900 sm:text-6xl dark:text-white">0</div>
+            <div class="mt-2 text-xs font-medium uppercase tracking-widest text-slate-500">Gün</div>
+          </div>
+          <div class="rounded-2xl bg-white p-5 text-center shadow-sm ring-1 ring-slate-900/5 dark:bg-slate-900 dark:ring-white/10">
+            <div id="h" class="font-mono text-4xl font-medium tabular-nums text-slate-900 sm:text-6xl dark:text-white">00</div>
+            <div class="mt-2 text-xs font-medium uppercase tracking-widest text-slate-500">Saat</div>
+          </div>
+          <div class="rounded-2xl bg-white p-5 text-center shadow-sm ring-1 ring-slate-900/5 dark:bg-slate-900 dark:ring-white/10">
+            <div id="m" class="font-mono text-4xl font-medium tabular-nums text-slate-900 sm:text-6xl dark:text-white">00</div>
+            <div class="mt-2 text-xs font-medium uppercase tracking-widest text-slate-500">Dakika</div>
+          </div>
+          <div class="rounded-2xl bg-white p-5 text-center shadow-sm ring-1 ring-slate-900/5 dark:bg-slate-900 dark:ring-white/10">
+            <div id="s" class="font-mono text-4xl font-medium tabular-nums text-sky-500 sm:text-6xl">00</div>
+            <div class="mt-2 text-xs font-medium uppercase tracking-widest text-slate-500">Saniye</div>
+          </div>
+        </div>
+
+        <!-- Hedef çubuğu -->
+        <div class="px-2 pb-2 pt-5 sm:px-4">
+          <div class="flex items-center justify-between text-sm">
+            <span class="font-medium text-slate-900 dark:text-white">Sıradaki hedef: <span id="goalLabel">7 gün</span></span>
+            <span id="goalPct" class="font-mono text-slate-500">0%</span>
+          </div>
+          <div class="mt-2 h-2 overflow-hidden rounded-full bg-slate-200 dark:bg-slate-800">
+            <div id="goalBar" class="h-full w-0 rounded-full bg-linear-to-r from-sky-400 to-indigo-500 transition-all duration-700"></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="mt-4 flex flex-wrap items-center justify-center gap-3 text-sm">
+        <span class="text-slate-500">Başlangıç: <span id="startText" class="font-mono text-slate-700 dark:text-slate-300"></span></span>
+        <button id="editBtn" class="rounded-full px-3 py-1.5 font-medium text-slate-700 ring-1 ring-slate-900/10 transition hover:bg-slate-100 dark:text-slate-300 dark:ring-white/10 dark:hover:bg-slate-800">Tarihi düzenle</button>
+        <button id="resetBtn" class="rounded-full px-3 py-1.5 font-medium text-rose-600 ring-1 ring-rose-500/30 transition hover:bg-rose-500/10 dark:text-rose-400">Sıfırla</button>
+      </div>
+
+      <div id="editBox" class="mx-auto mt-4 hidden max-w-sm gap-2 rounded-2xl bg-slate-50 p-4 ring-1 ring-slate-900/10 dark:bg-slate-900 dark:ring-white/10">
+        <label class="block text-xs font-medium text-slate-500">Yeni başlangıç zamanı</label>
+        <input id="startInput" type="datetime-local" class="mt-1 w-full rounded-lg bg-white px-3 py-2 font-mono text-sm text-slate-900 ring-1 ring-slate-900/10 outline-none focus:ring-2 focus:ring-sky-500 dark:bg-slate-950 dark:text-white dark:ring-white/10" />
+        <button id="saveBtn" class="mt-3 w-full rounded-lg bg-slate-900 px-4 py-2 text-sm font-semibold text-white transition hover:bg-slate-700 dark:bg-sky-500 dark:hover:bg-sky-400">Kaydet</button>
+      </div>
+    </section>
+
+    <!-- Günlük checklist -->
+    <section class="mt-16 sm:mt-24">
+      <div class="flex items-end justify-between">
+        <div>
+          <p class="font-mono text-sm font-medium text-sky-600 dark:text-sky-400" id="dayLabel">Gün 1</p>
+          <h2 class="mt-1 text-2xl font-bold tracking-tight text-slate-900 sm:text-3xl dark:text-white">Bugünün kontrol listesi</h2>
+        </div>
+        <span id="doneCount" class="font-mono text-sm text-slate-500">0/6</span>
+      </div>
+      <ul id="checklist" class="mt-6 grid gap-3 sm:grid-cols-2"></ul>
+    </section>
+
+    <!-- Kilometre taşları -->
+    <section class="mt-16 sm:mt-24">
+      <h2 class="text-2xl font-bold tracking-tight text-slate-900 sm:text-3xl dark:text-white">Kilometre taşları</h2>
+      <div id="milestones" class="mt-6 grid grid-cols-2 gap-3 sm:grid-cols-4"></div>
+    </section>
+
+    <footer class="mt-20 text-center text-sm text-slate-500">
+      Disiplin, motivasyonun bittiği yerde başlar.
+    </footer>
+  </main>
+
+<script>
+  // Varsayılan başlangıç: 15 Ekim 2026, 04:00 (yerel saat). Ay 0'dan başlar: 9 = Ekim
+  const DEFAULT_START = new Date(2026, 9, 15, 4, 0, 0).getTime();
+  const START_KEY = 'regen.start.v2';
+  const $ = (id) => document.getElementById(id);
+  const pad = (n) => String(n).padStart(2, '0');
+
+  // Başlangıç zamanı (düzenlenmediyse varsayılan tarih kullanılır)
+  let start = Number(localStorage.getItem(START_KEY)) || DEFAULT_START;
+
+  const MILESTONES = [1, 3, 7, 14, 21, 30, 60, 90, 180, 365];
+
+  // Milestone kartları
+  const msBox = $('milestones');
+  MILESTONES.slice(2).forEach((n) => {
+    const el = document.createElement('div');
+    el.dataset.ms = n;
+    el.className = 'rounded-2xl p-4 ring-1 ring-slate-900/10 transition dark:ring-white/10';
+    el.innerHTML = `<div class="font-mono text-2xl font-medium">${n}</div><div class="text-xs uppercase tracking-widest text-slate-500">gün</div>`;
+    msBox.appendChild(el);
+  });
+
+  function tick() {
+    const diff = Math.max(0, Date.now() - start);
+    const totalSec = Math.floor(diff / 1000);
+    const days = Math.floor(totalSec / 86400);
+    $('d').textContent = days;
+    $('h').textContent = pad(Math.floor(totalSec % 86400 / 3600));
+    $('m').textContent = pad(Math.floor(totalSec % 3600 / 60));
+    $('s').textContent = pad(totalSec % 60);
+    $('dayLabel').textContent = `Gün ${days + 1}`;
+
+    const dayFloat = diff / 86400000;
+    const next = MILESTONES.find((n) => n > dayFloat) || MILESTONES.at(-1);
+    const prev = [...MILESTONES].reverse().find((n) => n <= dayFloat) || 0;
+    const pct = Math.min(100, ((dayFloat - prev) / (next - prev)) * 100);
+    $('goalLabel').textContent = `${next} gün`;
+    $('goalPct').textContent = `${Math.floor(pct)}%`;
+    $('goalBar').style.width = `${pct}%`;
+
+    msBox.querySelectorAll('[data-ms]').forEach((el) => {
+      const done = dayFloat >= Number(el.dataset.ms);
+      el.className = 'rounded-2xl p-4 ring-1 transition ' + (done
+        ? 'bg-sky-500/10 text-sky-700 ring-sky-500/40 dark:text-sky-300'
+        : 'text-slate-400 ring-slate-900/10 dark:text-slate-600 dark:ring-white/10');
+    });
+  }
+
+  function showStart() {
+    $('startText').textContent = new Date(start).toLocaleString('tr-TR', { dateStyle: 'medium', timeStyle: 'short' });
+  }
+
+  // Düzenle / sıfırla
+  $('editBtn').onclick = () => {
+    const d = new Date(start - new Date().getTimezoneOffset() * 60000);
+    $('startInput').value = d.toISOString().slice(0, 16);
+    $('editBox').classList.toggle('hidden');
+    $('editBox').classList.toggle('block');
+  };
+  $('saveBtn').onclick = () => {
+    const t = new Date($('startInput').value).getTime();
+    if (t && t <= Date.now()) { start = t; localStorage.setItem(START_KEY, t); showStart(); tick(); $('editBox').classList.add('hidden'); }
+  };
+  $('resetBtn').onclick = () => {
+    if (confirm('Sayaç sıfırlansın mı? Bu, yeniden başlamak demek. Emin misin?')) {
+      start = Date.now(); localStorage.setItem(START_KEY, start); showStart(); tick();
+    }
+  };
+
+  // Günlük checklist (her gün için ayrı kaydedilir)
+  const TASKS = [
+    '🌙 Zamanında yattım, düzenli uyudum',
+    '📵 Sosyal medyadan uzak durdum',
+    '📚 Kitap okudum',
+    '💼 Derin çalışma / iş yaptım',
+    '🇩🇪 Almanca çalıştım (B1 hedefi)',
+    '🧠 Yeni bir şey öğrendim',
+  ];
+  const todayKey = 'regen.checks.' + new Date().toISOString().slice(0, 10);
+  let checks = JSON.parse(localStorage.getItem(todayKey) || '[]');
+
+  function renderChecks() {
+    const ul = $('checklist');
+    ul.innerHTML = '';
+    TASKS.forEach((t, i) => {
+      const on = !!checks[i];
+      const li = document.createElement('li');
+      li.innerHTML = `
+        <button class="flex w-full items-center gap-3 rounded-2xl p-4 text-left ring-1 transition ${on
+          ? 'bg-sky-500/10 ring-sky-500/40 text-slate-900 dark:text-white'
+          : 'ring-slate-900/10 hover:bg-slate-50 dark:ring-white/10 dark:hover:bg-slate-900'}">
+          <span class="flex size-6 shrink-0 items-center justify-center rounded-full text-xs ring-1 ${on
+            ? 'bg-sky-500 text-white ring-sky-500' : 'ring-slate-400/50'}">${on ? '✓' : ''}</span>
+          <span class="${on ? 'line-through opacity-70' : ''}">${t}</span>
+        </button>`;
+      li.firstElementChild.onclick = () => {
+        checks[i] = !checks[i];
+        localStorage.setItem(todayKey, JSON.stringify(checks));
+        renderChecks();
+      };
+      ul.appendChild(li);
+    });
+    $('doneCount').textContent = `${checks.filter(Boolean).length}/${TASKS.length}`;
+  }
+
+  showStart(); renderChecks(); tick();
+  setInterval(tick, 1000);
+</script>
+</body>
+</html>
